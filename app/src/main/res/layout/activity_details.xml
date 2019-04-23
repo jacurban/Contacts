@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="25dp"
+    tools:context=".DetailsActivity">
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/informacoes"
+        android:textSize="20sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        />
+
+    <EditText
+        android:id="@+id/nameEDT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name"
+        android:inputType="textPersonName"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/info"
+        android:layout_marginTop="30dp"
+        />
+
+    <EditText
+        android:id="@+id/emailEDT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/email"
+        android:importantForAccessibility="no"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/nameEDT"/>
+
+    <EditText
+        android:id="@+id/phoneEDT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/cellphone"
+        android:inputType="phone"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toBottomOf="@id/emailEDT"/>
+
+    <Button
+        android:id="@+id/saveBTN"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Salvar/Editar"
+        app:layout_constraintTop_toBottomOf="@id/phoneEDT"
+        />
+</android.support.constraint.ConstraintLayout>
