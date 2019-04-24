@@ -9,8 +9,6 @@ import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailsActivity : AppCompatActivity() {
 
-
-
     private val addTaskRequest = 1  //use this immutable value to reference your request to add new tasks later on
 
     override fun onCreate(savedInstanceState: Bundle?) {

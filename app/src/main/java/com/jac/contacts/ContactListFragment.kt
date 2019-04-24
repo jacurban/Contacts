@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,10 +18,25 @@ class ContactListFragment : Fragment() {
     private val contactList: MutableList<Person> by lazy { mutableListOf<Person>() }
     private var contactAdapter: ContactAdapter? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        activity?.let {
+            contactAdapter = ContactAdapter(contactList, it) //criando o adapter
+        }
+
+    }
+
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.fragment_contact_list, container, false)
+        return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         fab?.setOnClickListener { view ->
+            Log.d("MAMM", "FUNFOOOOU")
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
             val intent = Intent(activity, DetailsActivity::class.java) // intençao de abrir a DetailsActivity
             intent.putExtra(DetailsActivity.EXTRA_BUTTON, 1)
@@ -28,12 +44,9 @@ class ContactListFragment : Fragment() {
         }
 
         activity?.let {
-            contactAdapter = ContactAdapter(contactList, it) //criando o adapter
             listRV?.adapter = contactAdapter // definir o adapter do RecyclerView (o adapter eh um montador de coleções)
             listRV?.layoutManager = LinearLayoutManager(it)  // dizer que o recyclerView eh um Linear Layout
         }
-
-        return v
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

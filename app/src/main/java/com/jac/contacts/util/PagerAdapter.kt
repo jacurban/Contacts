@@ -3,12 +3,13 @@ package com.jac.contacts.util
 import android.app.Activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.FragmentStatePagerAdapter
 import com.jac.contacts.AboutFragment
 import com.jac.contacts.ContactListFragment
 import com.jac.contacts.R
 
-class PagerAdapter(fm: FragmentManager, private val activity: Activity) : FragmentStatePagerAdapter(fm) {
+class PagerAdapter(fm: FragmentManager, private val activity: Activity) : FragmentPagerAdapter(fm) {
 
     private val contactListFragment: ContactListFragment by lazy { ContactListFragment() }
     private val aboutFragment: AboutFragment by lazy { AboutFragment() }
