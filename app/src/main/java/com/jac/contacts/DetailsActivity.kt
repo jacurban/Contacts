@@ -32,7 +32,7 @@ class DetailsActivity : AppCompatActivity() {
                 val person = Person(name, email, phone)
 
                 val i = Intent()
-                i.putExtra(MainActivity.EXTRA_CONTACT, person)
+                i.putExtra(ContactListFragment.EXTRA_CONTACT, person)
                 setResult(Activity.RESULT_OK, i)
                 finish()
             }

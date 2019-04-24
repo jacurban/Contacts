@@ -8,4 +8,12 @@
     <string name="save">Salvar</string>
     <string name="edit">Editar</string>
     <string name="delete">deletar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about">About</string>
+    <string name="ipsum">Here I tal about me and my dreams and all the things I want to conquer in the world</string>
+    <string name="list">Contatos</string>
+
+
 </resources>
