@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.jac.contacts.util.Person
+import com.jac.contacts.model.Person
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 
 class ContactListFragment : Fragment() {
