@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.item_contact.view.*
 
 
 //plota os itens da lista que eu declarei na tela
-class ContactAdapter(private val contacts: MutableList<Person>, private val activity: Activity) :
+class ContactAdapter(private val contacts: MutableList<Person>, private val contactListFragment: ContactListFragment) :
     RecyclerView.Adapter<ContactAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,17 +30,17 @@ class ContactAdapter(private val contacts: MutableList<Person>, private val acti
         holder.itemView.emailTV.text = contacts[position].email
         holder.itemView.phoneTV.text = contacts[position].phone
 
-        //var itemPerson = Person(contacts[position].name, contacts[position].email, contacts[position].phone)
 
         holder.itemView.editBTN.setOnClickListener {
-            Toast.makeText(activity,contacts[position].name, Toast.LENGTH_LONG).show() // testar pra aparecer na tela :)
-            val intent = Intent(activity, DetailsActivity::class.java) // intençao de abrir a DetailsActivity
-            //intent.putExtra(DetailsActivity.EXTRA_EDIT, itemPerson)
-            activity.startActivity(intent)
+            val intent = Intent(contactListFragment.activity, DetailsActivity::class.java) // intençao de abrir a DetailsActivity
+            intent.putExtra(DetailsActivity.EXTRA_EDIT, contacts[position])
+            contactListFragment.activity?.startActivity(intent)
         }
-//        holder.itemView.deleteBTN.setOnClickListener {
-//            ContactDB.instance.personDAO().delete(itemPerson)
-//        }
+        holder.itemView.deleteBTN.setOnClickListener {
+           // Toast.makeText(contactListFragment.activity, contacts[position].name, Toast.LENGTH_LONG).show()
+            //ContactDB.instance.personDAO().delete(contacts[position])
+            contactListFragment.deleteItem(position)
+        }
 
         holder.itemView.itemBTN.setOnClickListener {
             if (contacts[position].visible) {

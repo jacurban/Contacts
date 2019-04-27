@@ -10,41 +10,42 @@ import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailsActivity : AppCompatActivity() {
 
-    private val addTaskRequest = 1  //use this immutable value to reference your request to add new tasks later on
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        val status = intent.getIntExtra(EXTRA_BUTTON, 0)
-        if (status == 1){
+        val contact: Person? = intent.getParcelableExtra(EXTRA_EDIT)
+        if (contact == null){
             saveBTN.text = getString(R.string.save)
         }else{
-            saveBTN.text = getString(R.string.edit)
+            saveBTN?.text = getString(R.string.edit)
+            nameEDT?.setText(contact.name)
+            emailEDT?.setText(contact.email)
+            phoneEDT?.setText(contact.phone)
+
         }
 
-//        val info = intent.extras
-//        if (info!=null){
-//            ContactDB.instance.delete()
-//        }
-
         saveBTN.setOnClickListener {
-            if (!nameEDT.text.isNullOrEmpty() && !emailEDT.text.isNullOrEmpty() && !phoneEDT.text.isNullOrEmpty()) {
+
+            if (!nameEDT?.text.isNullOrEmpty() && !emailEDT?.text.isNullOrEmpty() && !phoneEDT?.text.isNullOrEmpty()) {
                 val name = nameEDT.text.toString()
                 val email = emailEDT.text.toString()
                 val phone = phoneEDT.text.toString()
-                val person = Person(name, email, phone)
-                ContactDB.instance.personDAO().insert(person)
-
+                val newContact = Person(name, email, phone)
+                if (contact == null) {
+                    ContactDB.instance.personDAO().insert(newContact)
+                } else {
+                    ContactDB.instance.personDAO().update(newContact)
+                }
                 val i = Intent()
-                i.putExtra(ContactListFragment.EXTRA_CONTACT, person)
+                i.putExtra(ContactListFragment.EXTRA_CONTACT, newContact)
                 setResult(Activity.RESULT_OK, i)
                 finish()
             }
         }
     }
     companion object {
-        const val EXTRA_BUTTON = "EXTRA_BUTTON"
         const val EXTRA_EDIT = "EXTRA_EDIT"
     }
 

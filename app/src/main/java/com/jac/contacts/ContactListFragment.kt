@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.jac.contacts.model.Person
+import com.jac.contacts.persistence.ContactDB
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 
 class ContactListFragment : Fragment() {
@@ -21,10 +22,10 @@ class ContactListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activity?.let {
-            contactAdapter = ContactAdapter(contactList, it) //criando o adapter
-        }
 
+        activity?.let {
+            contactAdapter = ContactAdapter(contactList, this) //criando o adapter
+        }
     }
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,7 +40,6 @@ class ContactListFragment : Fragment() {
             Log.d("MAMM", "FUNFOOOOU")
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
             val intent = Intent(activity, DetailsActivity::class.java) // intençao de abrir a DetailsActivity
-            intent.putExtra(DetailsActivity.EXTRA_BUTTON, 1)
             startActivityForResult(intent, REQUEST_DETAILS) //startar a activity intencionada acima
         }
 
@@ -49,19 +49,39 @@ class ContactListFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        ContactDB.instance.personDAO().getAll()?.let {
+            contactList.clear()
+            contactList.addAll(it)
+            contactAdapter?.notifyDataSetChanged()
+        }
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_DETAILS) {
             if (resultCode == Activity.RESULT_OK) {
-                val contact: Person = data?.getSerializableExtra(EXTRA_CONTACT) as Person
+                val contact: Person = data?.getParcelableExtra(EXTRA_CONTACT) as Person
                 contactList.add(contact)
                 contactAdapter?.notifyDataSetChanged() // avisar pro contactAdapter que a lista foi alterada
+
+
                 //Toast.makeText(this, contact.name, Toast.LENGTH_LONG).show() // testar pra aparecer na tela :)
                 //Log.d("JAC", contact.name) // fazendo uma tag pra aparecer no Logcat
 
             }
         }
     }
+
+    fun deleteItem(position: Int) {
+        ContactDB.instance.personDAO().delete(contactList[position])
+        contactList.removeAt(position)
+        contactAdapter?.notifyDataSetChanged()
+    }
+
 
     companion object {
         @JvmStatic
