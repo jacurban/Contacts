@@ -1,14 +1,13 @@
-package com.jac.contacts
+package com.jac.contacts.scenes.contacts
 
-import android.app.Activity
 import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.jac.contacts.R
 import com.jac.contacts.model.Person
-import com.jac.contacts.persistence.ContactDB
+import com.jac.contacts.scenes.details.DetailsActivity
 import kotlinx.android.synthetic.main.item_contact.view.*
 
 
@@ -29,7 +28,6 @@ class ContactAdapter(private val contacts: MutableList<Person>, private val cont
         holder.itemView.nameTV.text = contacts[position].name
         holder.itemView.emailTV.text = contacts[position].email
         holder.itemView.phoneTV.text = contacts[position].phone
-
 
         holder.itemView.editBTN.setOnClickListener {
             val intent = Intent(contactListFragment.activity, DetailsActivity::class.java) // intençao de abrir a DetailsActivity

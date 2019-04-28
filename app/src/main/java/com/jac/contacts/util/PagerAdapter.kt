@@ -4,9 +4,8 @@ import android.app.Activity
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.app.FragmentStatePagerAdapter
-import com.jac.contacts.AboutFragment
-import com.jac.contacts.ContactListFragment
+import com.jac.contacts.scenes.about.AboutFragment
+import com.jac.contacts.scenes.contacts.ContactListFragment
 import com.jac.contacts.R
 
 class PagerAdapter(fm: FragmentManager, private val activity: Activity) : FragmentPagerAdapter(fm) {

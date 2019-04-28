@@ -1,4 +1,4 @@
-package com.jac.contacts
+package com.jac.contacts.scenes.contacts
 
 import android.app.Activity
 import android.content.Intent
@@ -10,18 +10,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jac.contacts.R
 import com.jac.contacts.model.Person
 import com.jac.contacts.persistence.ContactDB
+import com.jac.contacts.scenes.details.DetailsActivity
 import kotlinx.android.synthetic.main.fragment_contact_list.*
 
-class ContactListFragment : Fragment() {
+class ContactListFragment : Fragment(), Contact.View {
 
     private val contactList: MutableList<Person> by lazy { mutableListOf<Person>() }
     private var contactAdapter: ContactAdapter? = null
+    private lateinit var presenter: Contact.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        presenter = ContactPresenter(this)
 
         activity?.let {
             contactAdapter = ContactAdapter(contactList, this) //criando o adapter
@@ -29,16 +33,14 @@ class ContactListFragment : Fragment() {
     }
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val v = inflater.inflate(R.layout.fragment_contact_list, container, false)
-        return v
+        return inflater.inflate(R.layout.fragment_contact_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        fab?.setOnClickListener { view ->
-            Log.d("MAMM", "FUNFOOOOU")
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
+        fab?.setOnClickListener {
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show()
             val intent = Intent(activity, DetailsActivity::class.java) // intençao de abrir a DetailsActivity
             startActivityForResult(intent, REQUEST_DETAILS) //startar a activity intencionada acima
         }
@@ -52,12 +54,15 @@ class ContactListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        ContactDB.instance.personDAO().getAll()?.let {
+        presenter.gelAll()
+    }
+
+    override fun loadList(listOfContacts: List<Person>?) {
+        listOfContacts?.let {
             contactList.clear()
             contactList.addAll(it)
             contactAdapter?.notifyDataSetChanged()
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,6 +87,10 @@ class ContactListFragment : Fragment() {
         contactAdapter?.notifyDataSetChanged()
     }
 
+    override fun onDestroy() {
+        presenter.kill()
+        super.onDestroy() // destroi toda a view
+    }
 
     companion object {
         @JvmStatic

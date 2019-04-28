@@ -30,6 +30,7 @@ android {
 dependencies {
     def androidVer = "28.0.0"
     def roomVer = "1.1.1"
+    def coroutineVer = "1.2.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -37,6 +38,9 @@ dependencies {
     implementation "com.android.support:design:$androidVer"
     implementation "com.android.support:support-v4:$androidVer"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVer"
 
     //room
     implementation "android.arch.persistence.room:runtime:$roomVer"

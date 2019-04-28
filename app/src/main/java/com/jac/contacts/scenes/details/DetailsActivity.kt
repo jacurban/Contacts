@@ -1,19 +1,23 @@
-package com.jac.contacts
+package com.jac.contacts.scenes.details
 
 import android.app.Activity
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.jac.contacts.scenes.contacts.ContactListFragment
+import com.jac.contacts.R
 import com.jac.contacts.model.Person
-import com.jac.contacts.persistence.ContactDB
 import kotlinx.android.synthetic.main.activity_details.*
 
-class DetailsActivity : AppCompatActivity() {
+class DetailsActivity : AppCompatActivity(), Details.View {
 
+    private lateinit var presenter: Details.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+
+        presenter = DetailsPresenter (this)
 
         val contact: Person? = intent.getParcelableExtra(EXTRA_EDIT)
         if (contact == null){
@@ -23,7 +27,6 @@ class DetailsActivity : AppCompatActivity() {
             nameEDT?.setText(contact.name)
             emailEDT?.setText(contact.email)
             phoneEDT?.setText(contact.phone)
-
         }
 
         saveBTN.setOnClickListener {
@@ -34,9 +37,9 @@ class DetailsActivity : AppCompatActivity() {
                 val phone = phoneEDT.text.toString()
                 val newContact = Person(name, email, phone)
                 if (contact == null) {
-                    ContactDB.instance.personDAO().insert(newContact)
+                    presenter.insertContact(newContact)
                 } else {
-                    ContactDB.instance.personDAO().update(newContact)
+                    presenter.updateContact(newContact)
                 }
                 val i = Intent()
                 i.putExtra(ContactListFragment.EXTRA_CONTACT, newContact)
