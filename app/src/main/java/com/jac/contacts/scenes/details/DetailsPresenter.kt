@@ -7,7 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class DetailsPresenter (view: Details.View): Details.Presenter, CoroutineScope {
+class DetailsPresenter (val view: Details.View): Details.Presenter, CoroutineScope {
     override val coroutineContext: CoroutineContext = Dispatchers.IO
 
     override fun updateContact(person: Person) {

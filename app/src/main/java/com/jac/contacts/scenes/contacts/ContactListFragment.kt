@@ -53,7 +53,6 @@ class ContactListFragment : Fragment(), Contact.View {
 
     override fun onResume() {
         super.onResume()
-
         presenter.gelAll()
     }
 
