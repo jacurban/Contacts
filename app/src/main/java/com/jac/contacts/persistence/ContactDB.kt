@@ -13,7 +13,7 @@ abstract class ContactDB: RoomDatabase() {
 
     private fun ContactDB(){} // proibe criar uma instancia dessa classe fora dela
 
-    abstract fun personDAO(): PersonDAO
+    abstract fun personDAO(): PersonDAO // só ta aqui porque precisa dela por debaixo dos panos
 
     companion object {
         lateinit var instance: ContactDB //garantir unica instancia dessa classe
